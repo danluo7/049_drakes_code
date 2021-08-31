@@ -4,20 +4,20 @@
 put folder into env variable
 
     nano .bahsrc
-    export gbm_049_drake=/home/daniel/ubuntu/workspace/drakes_data/18-0190-049/
+    export gbm_049_drake=/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/
 
 
 ## start with Drake's output from Stringtie (FPKM counts)
 
     
-    cd gbm_049_drake/expression/stringtie/ref_only
+    cd $gbm_049_drake/expression/stringtie/ref_only
     less -S Sample6_Lane2/transcripts.gtf
 
    
 ## Use Ballgown in R for differential expression (DE) analysis (then PCA) using output from Stringtie
 Perform A vs. B comparison, using all replicates, for known (reference only mode) transcripts
 
-    mkdir -p ~workspace/drakes_data/18-0190-049/de/ballgown/ref_only
+    mkdir -p ~/workspace/all_049/drakes_data/18-0190-049/de/ballgown/ref_only
     cd $gbm_049_drake/de/ballgown/ref_only/
   
 
@@ -30,15 +30,256 @@ ids type path-to-file-011_invitro_1 011 $gbm/expression/stringtie/1 011_invitro_
 
 goal is to generate a header file to load into R, for ALL samples for principal component analysis (the simplest form of multidimentional scaling), and also a file for pairwise comparisons. since we have a ton of comparisisons, might just not do this for now and only do the PCA.
 
-file for all 049 samples for PCA: (this is how the script should look like (without the enters inbetween each line): 
+file for all 049 samples for PCA: 
 
-printf ""ids","type","path 
-"\n"Sample6_Lane2","011_slice","$gbm_049_drake/expression/stringtie/ref_only/Sample6_Lane2 "\n"2","011_slice","$gbm/expression/stringtie/ref_only/2 "\n"3","011_organoid","$gbm/expression/stringtie/ref_only/3 "\n"4","011_organoid","$gbm/expression/stringtie/ref_only/4 "\n"5","011_tissue","$gbm/expression/stringtie/ref_only/5 "\n"6","011_tissue","$gbm/expression/stringtie/ref_only/6 "\n"7","011_invitro","$gbm/expression/stringtie/ref_only/7 "\n"8","011_invitro","$gbm/expression/stringtie/ref_only/8 "\n" > GBM011_all.csv
+printf "\"ids\",\"type\",\"path\"\
+n"Sample17_Lane2","049_slice","$gbm_049_drake/expression/stringtie/ref_only/Sample17_Lane2"\
+n"Sample17_Lane3","049_slice","$gbm_049_drake/expression/stringtie/ref_only/Sample17_Lane3"\
+n"Sample29_Lane2","049_organoid","$gbm_049_drake/expression/stringtie/ref_only/Sample29_Lane2"\
+n"Sample29_Lane3","049_organoid","$gbm_049_drake/expression/stringtie/ref_only/Sample29_Lane3"\
+n"Sample6_Lane2","049_tissue","$gbm_049_drake/expression/stringtie/ref_only/Sample6_Lane2"\
+n"Sample6_Lane3","049_tissue","$gbm_049_drake/expression/stringtie/ref_only/Sample6_Lane3"\
+n"Sample26_Lane2","049_invitro","$gbm_049_drake/expression/stringtie/ref_only/Sample26_Lane2"\
+n"Sample27_Lane2","049_invitro","$gbm_049_drake/expression/stringtie/ref_only/Sample27_Lane2 "\
+n" > GBM049_all.csv
+
+actual script:
+
+    printf "\"ids\",\"type\",\"path\"\n"Sample17_Lane2","049_slice","$gbm_049_drake/expression/stringtie/ref_only/Sample17_Lane2"\n"Sample17_Lane3","049_slice","$gbm_049_drake/expression/stringtie/ref_only/Sample17_Lane3"\n"Sample29_Lane2","049_organoid","$gbm_049_drake/expression/stringtie/ref_only/Sample29_Lane2"\n"Sample29_Lane3","049_organoid","$gbm_049_drake/expression/stringtie/ref_only/Sample29_Lane3"\n"Sample6_Lane2","049_tissue","$gbm_049_drake/expression/stringtie/ref_only/Sample6_Lane2"\n"Sample6_Lane3","049_tissue","$gbm_049_drake/expression/stringtie/ref_only/Sample6_Lane3"\n"Sample26_Lane2","049_invitro","$gbm_049_drake/expression/stringtie/ref_only/Sample26_Lane2"\n"Sample27_Lane2","049_invitro","$gbm_049_drake/expression/stringtie/ref_only/Sample27_Lane2 "\n" > GBM049_all.csv
 
 
-    cd $gbm/de/ballgown/ref_only/
-
-    printf "\"ids\",\"type\",\"path\"\n\"1\",\"011_slice\",\"$gbm/expression/stringtie/ref_only/1\"\n\"2\",\"011_slice\",\"$gbm/expression/stringtie/ref_only/2\"\n\"3\",\"011_organoid\",\"$gbm/expression/stringtie/ref_only/3\"\n\"4\",\"011_organoid\",\"$gbm/expression/stringtie/ref_only/4\"\n\"5\",\"011_tissue\",\"$gbm/expression/stringtie/ref_only/5\"\n\"6\",\"011_tissue\",\"$gbm/expression/stringtie/ref_only/6\"\n\"7\",\"011_invitro\",\"$gbm/expression/stringtie/ref_only/7\"\n\"8\",\"011_invitro\",\"$gbm/expression/stringtie/ref_only/8\"\n" > GBM011_all.csv
 
 
+R script:
 
+
+	R --no-restore
+	library(ballgown)
+	library(genefilter)
+	library(dplyr)
+	library(devtools)
+	library(ggplot2)
+	library(gplots)
+	library(GenomicRanges)
+
+	pheno_data = read.csv("GBM049_all.csv")  
+
+
+	bg = ballgown(samples=as.vector(pheno_data$path), pData=pheno_data)
+	bg
+
+	bg_table = texpr(bg, 'all')
+
+	bg_gene_names = unique(bg_table[, 9:10])
+	head(bg_gene_names)
+
+	save(bg, file='bg.rda')
+	bg
+
+
+
+
+	pdf(file="GBM049_R_output.pdf")
+
+	working_dir = "/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/de/ballgown/ref_only"
+	setwd(working_dir)
+	dir()
+
+
+Import expression and differential expression results from the HISAT2/StringTie/Ballgown pipeline
+	
+	load('bg.rda')
+
+
+Load gene names for lookup later in the tutorial
+	
+	bg_table = texpr(bg, 'all')
+	bg_gene_names = unique(bg_table[, 9:10])
+
+
+Pull the gene_expression data frame from the ballgown object
+
+	gene_expression = as.data.frame(gexpr(bg))
+	head(gene_expression)
+
+View the column names
+
+	colnames(gene_expression)
+
+View the row names
+	
+	row.names(gene_expression)
+
+Determine the dimensions of the dataframe.  'dim()' will return the number of rows and columns
+
+	dim(gene_expression)
+
+
+
+
+
+Just for fun, check BRD4 expression across all 8 samples:
+
+	i = row.names(gene_expression) == "NM_001029863"
+	gene_expression[i,]
+
+
+
+
+
+
+Load the transcript to gene index from the ballgown object. Each row of data represents a transcript. Many of these transcripts represent the same gene. Determine the numbers of transcripts and unique genes  
+
+
+	transcript_gene_table = indexes(bg)$t2g
+	head(transcript_gene_table)
+	
+	length(row.names(transcript_gene_table)) #Transcript count
+	length(unique(transcript_gene_table[,"g_id"])) #Unique Gene count
+
+> length(row.names(transcript_gene_table)) #Transcript count
+[1] 190734
+> length(unique(transcript_gene_table[,"g_id"])) #Unique Gene count
+[1] 54651
+
+
+
+
+Plot the number of transcripts per gene. Many genes will have only 1 transcript, some genes will have several transcripts. Use the 'table()' command to count the number of times each gene symbol occurs (i.e. the # of transcripts that have each gene symbol). Then use the 'hist' command to create a histogram of these counts
+
+	counts=table(transcript_gene_table[,"g_id"])
+	c_one = length(which(counts == 1))
+	c_more_than_one = length(which(counts > 1))
+	c_max = max(counts)
+	hist(counts, breaks=50, col="bisque4", xlab="Transcripts per gene", main="Distribution of transcript count per gene")
+	legend_text = c(paste("Genes with one transcript =", c_one), paste("Genes with more than one transcript =", c_more_than_one), paste("Max transcripts for single gene = ", c_max))
+	legend("topright", legend_text, lty=NULL)
+
+
+Plot the distribution of transcript sizes as a histogram. lengths will be those of known transcripts. Good QC step: we had a low coverage library, or other problems, we might get short 'transcripts' that are actually only pieces of real transcripts.
+
+	full_table <- texpr(bg , 'all')
+	hist(full_table$length, breaks=500, xlab="Transcript length (bp)", main="Distribution of transcript lengths", col="steelblue")
+
+Summarize FPKM values for all 6 replicates with minimum and maximum FPKM values for a particular library
+	
+	min(gene_expression[,"FPKM.1"])
+	max(gene_expression[,"FPKM.2"])
+
+
+Set the minimum non-zero FPKM values by one of two ways:
+
+coverting 0's to NA, and calculating the minimum or all non NA values
+two ways: 
+zz = fpkm_matrix[,data_columns]
+zz[zz==0] = NA
+min_nonzero = min(zz, na.rm=TRUE)
+min_nonzero
+
+
+Alternatively just set min value to 1
+	
+	min_nonzero=1
+
+Set the columns for finding FPKM and create shorter names for figures
+
+	data_columns=c(1:8)
+	short_names=c("slice_1","slice2","organoid_1","organoid_2","tissue_1","tissue_2","invitro_1","invitro_2")
+
+
+Plot range of values and general distribution of FPKM values for all 8 libraries
+
+Create boxplots using different colors by setting storing the colors of the columns in a variable called data_colors. then display on a log2 scale and add the minimum non-zero value to avoid log2(0). Note that the bold horizontal line on each boxplot is the median.
+
+
+	colors()
+	data_colors=c("tomato1","tomato2","royalblue1","royalblue2","seagreen1","seagreen2","grey1","grey2")
+
+	boxplot(log2(gene_expression[,data_columns]+min_nonzero), col=data_colors, names=short_names, las=2, ylab="log2(FPKM)", main="Distribution of FPKMs for all 8 sample libraries")
+
+
+
+## plot a pair of replicates to assess reproducibility of technical replicates. 
+Tranform the data by converting to log2 scale after adding an arbitrary small value to avoid log2(0). Also add a straight line of slope 1, and intercept 0. Also calculate the correlation coefficient and display in a legend.
+
+	x = gene_expression[,"FPKM.1"]
+	y = gene_expression[,"FPKM.2"]
+	plot(x=log2(x+min_nonzero), y=log2(y+min_nonzero), pch=16, col="blue", cex=0.25, xlab="FPKM (011_slice, Replicate 1)", ylab="FPKM (011_slice, Replicate 2)", main="Comparison of expression values for replicates of slice samples")
+	abline(a=0,b=1)
+	rs=cor(x,y)^2
+	legend("topleft", paste("R squared = ", round(rs, digits=3), sep=""), lwd=1, col="black")
+
+
+check organoid samples
+
+	x = gene_expression[,"FPKM.3"]
+	y = gene_expression[,"FPKM.4"]
+	plot(x=log2(x+min_nonzero), y=log2(y+min_nonzero), pch=16, col="blue", cex=0.25, xlab="FPKM (011_organoid, Replicate 1)", ylab="FPKM (011_organoid, Replicate 2)", main="Comparison of expression values for replicates of organoid samples")
+	abline(a=0,b=1)
+	rs=cor(x,y)^2
+	legend("topleft", paste("R squared = ", round(rs, digits=3), sep=""), lwd=1, col="black")
+
+check tissue samples
+
+	x = gene_expression[,"FPKM.5"]
+	y = gene_expression[,"FPKM.6"]
+	plot(x=log2(x+min_nonzero), y=log2(y+min_nonzero), pch=16, col="blue", cex=0.25, xlab="FPKM (011_tissue, Replicate 1)", ylab="FPKM (011_tissue, Replicate 2)", main="Comparison of expression values for replicates of tissue samples")
+	abline(a=0,b=1)
+	rs=cor(x,y)^2
+	legend("topleft", paste("R squared = ", round(rs, digits=3), sep=""), lwd=1, col="black")
+
+
+check in vitro samples
+
+	x = gene_expression[,"FPKM.7"]
+	y = gene_expression[,"FPKM.8"]
+	plot(x=log2(x+min_nonzero), y=log2(y+min_nonzero), pch=16, col="blue", cex=0.25, xlab="FPKM (011_invitro, Replicate 1)", ylab="FPKM (011_invitro, Replicate 2)", main="Comparison of expression values for replicates of in vitro samples")
+	abline(a=0,b=1)
+	rs=cor(x,y)^2
+	legend("topleft", paste("R squared = ", round(rs, digits=3), sep=""), lwd=1, col="black")
+
+
+
+## Compare the correlation distance between all replicates
+
+Calculate the FPKM sum for all 8 libraries
+
+	gene_expression[,"sum"]=apply(gene_expression[,data_columns], 1, sum)
+
+Filter out genes with a grand sum FPKM of less than 10
+
+	i = which(gene_expression[,"sum"] > 5)
+
+
+Calculate the correlation between all pairs of data
+
+	r=cor(gene_expression[i,data_columns], use="pairwise.complete.obs", method="pearson")
+	r
+	
+	
+## Plot MDS.
+Convert correlation to distance, and use 'multi-dimensional scaling' to plot the relative differences between libraries, by calculating 2-dimensional coordinates to plot points for each library using eigenvectors (eig=TRUE). d, k=2 means 2 dimensions
+	
+	d=1-r
+	mds=cmdscale(d, k=2, eig=TRUE)
+	par(mfrow=c(1,1))
+	plot(mds$points, type="n", xlab="", ylab="", main="MDS distance plot (all non-zero genes)", xlim=c(-0.12,0.12), ylim=c(-0.12,0.12))
+	points(mds$points[,1], mds$points[,2], col="grey", cex=2, pch=16)
+	text(mds$points[,1], mds$points[,2], short_names, col=data_colors)
+
+Calculate the differential expression results including significance
+
+	results_genes = stattest(bg, feature="gene", covariate="type", getFC=TRUE, meas="FPKM")
+	results_genes = merge(results_genes,bg_gene_names,by.x=c("id"),by.y=c("gene_id"))
+
+
+
+close out the PDF
+dev.off()
+
+
+
+
+
+
+  
