@@ -10,9 +10,9 @@ put folder into env variable
 ## start with Drake's output from Stringtie (FPKM counts)
 
     
-    cd gbm_049_drake/expression/stringtie/ref_only
+  cd gbm_049_drake/expression/stringtie/ref_only
     
-    less -S Sample6_Lane2/transcripts.gtf
+  less -S Sample6_Lane2/transcripts.gtf
 
   
      
