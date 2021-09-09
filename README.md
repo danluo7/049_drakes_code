@@ -281,16 +281,18 @@ Calculate the differential expression results including significance
 
 
 ### Plot #11 - Create a heatmap to vizualize expression differences between the eight samples
-#Define custom dist and hclust functions for use with heatmaps
-mydist=function(c) {dist(c,method="euclidian")}
-myclust=function(c) {hclust(c,method="complete")}
 
-main_title="sig DE Transcripts"
-par(cex.main=0.8)
-sig_genes=results_genes[sig,"id"]
-sig_gene_names=results_genes[sig,"gene_name"]
-data=log2(as.matrix(gene_expression[sig_genes,data_columns])+1)
-heatmap.2(data, hclustfun=myclust, distfun=mydist, na.rm = TRUE, scale="column", dendrogram="both", margins=c(6,7), Rowv=TRUE, Colv=TRUE, symbreaks=FALSE, key=TRUE, symkey=FALSE, density.info="none", trace="none", main=main_title, cexRow=0.3, cexCol=1, labRow=sig_gene_names,labCol=short_names,col=bluered(100))
+Define custom dist and hclust functions for use with heatmaps
+
+	mydist=function(c) {dist(c,method="euclidian")}
+	myclust=function(c) {hclust(c,method="complete")}
+
+	main_title="sig DE Transcripts"
+	par(cex.main=0.8)
+	sig_genes=results_genes[sig,"id"]
+	sig_gene_names=results_genes[sig,"gene_name"]
+	data=log2(as.matrix(gene_expression[sig_genes,data_columns])+1)
+	heatmap.2(data, hclustfun=myclust, distfun=mydist, na.rm = TRUE, scale="column", dendrogram="both", margins=c(6,7), Rowv=TRUE, Colv=TRUE, symbreaks=FALSE, key=TRUE, symkey=FALSE, density.info="none", trace="none", main=main_title, cexRow=0.3, cexCol=1, labRow=sig_gene_names,labCol=short_names,col=bluered(100))
 
 
 
