@@ -102,6 +102,11 @@ Pull the gene_expression data frame from the ballgown object
 	gene_expression = as.data.frame(gexpr(bg))
 	head(gene_expression)
 
+Get the first 3 rows of data and a selection of columns
+	
+	gene_expression[1:3,c(1:3,4)]
+
+
 View the column names
 
 	colnames(gene_expression)
@@ -145,7 +150,7 @@ Load the transcript to gene index from the ballgown object. Each row of data rep
 
 
 
-Plot the number of transcripts per gene. Many genes will have only 1 transcript, some genes will have several transcripts. Use the 'table()' command to count the number of times each gene symbol occurs (i.e. the # of transcripts that have each gene symbol). Then use the 'hist' command to create a histogram of these counts
+Plot #1: Plot the number of transcripts per gene. Many genes will have only 1 transcript, some genes will have several transcripts. Use the 'table()' command to count the number of times each gene symbol occurs (i.e. the # of transcripts that have each gene symbol). Then use the 'hist' command to create a histogram of these counts
 
 	counts=table(transcript_gene_table[,"g_id"])
 	c_one = length(which(counts == 1))
@@ -156,7 +161,7 @@ Plot the number of transcripts per gene. Many genes will have only 1 transcript,
 	legend("topright", legend_text, lty=NULL)
 
 
-Plot the distribution of transcript sizes as a histogram. lengths will be those of known transcripts. Good QC step: we had a low coverage library, or other problems, we might get short 'transcripts' that are actually only pieces of real transcripts.
+Plot #2: Plot the distribution of transcript sizes as a histogram. lengths will be those of known transcripts. Good QC step: we had a low coverage library, or other problems, we might get short 'transcripts' that are actually only pieces of real transcripts.
 
 	full_table <- texpr(bg , 'all')
 	hist(full_table$length, breaks=500, xlab="Transcript length (bp)", main="Distribution of transcript lengths", col="steelblue")
@@ -187,7 +192,7 @@ Set the columns for finding FPKM and create shorter names for figures
 	short_names=c("slice_1","slice2","organoid_1","organoid_2","tissue_1","tissue_2","invitro_1","invitro_2")
 
 
-Plot range of values and general distribution of FPKM values for all 8 libraries
+Plot #3: Plot range of values and general distribution of FPKM values for all 8 libraries
 
 Create boxplots using different colors by setting storing the colors of the columns in a variable called data_colors. then display on a log2 scale and add the minimum non-zero value to avoid log2(0). Note that the bold horizontal line on each boxplot is the median.
 
@@ -199,7 +204,7 @@ Create boxplots using different colors by setting storing the colors of the colu
 
 
 
-## plot a pair of replicates to assess reproducibility of technical replicates. 
+## plot #4: plot a pair of replicates to assess reproducibility of technical replicates. 
 Tranform the data by converting to log2 scale after adding an arbitrary small value to avoid log2(0). Also add a straight line of slope 1, and intercept 0. Also calculate the correlation coefficient and display in a legend.
 
 	x = gene_expression[,"FPKM.1"]
@@ -257,7 +262,7 @@ Calculate the correlation between all pairs of data
 	r
 	
 	
-## Plot MDS.
+## Plot MDS (plot #8)
 Convert correlation to distance, and use 'multi-dimensional scaling' to plot the relative differences between libraries, by calculating 2-dimensional coordinates to plot points for each library using eigenvectors (eig=TRUE). d, k=2 means 2 dimensions
 	
 	d=1-r
@@ -271,6 +276,22 @@ Calculate the differential expression results including significance
 
 	results_genes = stattest(bg, feature="gene", covariate="type", getFC=TRUE, meas="FPKM")
 	results_genes = merge(results_genes,bg_gene_names,by.x=c("id"),by.y=c("gene_id"))
+
+
+
+
+### Plot #11 - Create a heatmap to vizualize expression differences between the eight samples
+#Define custom dist and hclust functions for use with heatmaps
+mydist=function(c) {dist(c,method="euclidian")}
+myclust=function(c) {hclust(c,method="complete")}
+
+main_title="sig DE Transcripts"
+par(cex.main=0.8)
+sig_genes=results_genes[sig,"id"]
+sig_gene_names=results_genes[sig,"gene_name"]
+data=log2(as.matrix(gene_expression[sig_genes,data_columns])+1)
+heatmap.2(data, hclustfun=myclust, distfun=mydist, na.rm = TRUE, scale="column", dendrogram="both", margins=c(6,7), Rowv=TRUE, Colv=TRUE, symbreaks=FALSE, key=TRUE, symkey=FALSE, density.info="none", trace="none", main=main_title, cexRow=0.3, cexCol=1, labRow=sig_gene_names,labCol=short_names,col=bluered(100))
+
 
 
 
