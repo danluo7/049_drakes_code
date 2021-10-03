@@ -11,7 +11,7 @@ put folder into env variable
 
     
     cd $gbm_049_drake/expression/stringtie/ref_only
-    less -S Sample6_Lane2/transcripts.gtf
+    head -S Sample6_Lane2/transcripts.gtf
 
    
 ## Use Ballgown in R for differential expression (DE) analysis (then PCA) using output from Stringtie
