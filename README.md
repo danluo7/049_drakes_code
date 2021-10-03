@@ -139,14 +139,16 @@ Load the transcript to gene index from the ballgown object. Each row of data rep
 	transcript_gene_table = indexes(bg)$t2g
 	head(transcript_gene_table)
 	
-	length(row.names(transcript_gene_table)) #Transcript count
-	length(unique(transcript_gene_table[,"g_id"])) #Unique Gene count
+	length(row.names(transcript_gene_table)) 
+	length(unique(transcript_gene_table[,"g_id"])) 
+	
+output of Transcript count
 
-> length(row.names(transcript_gene_table)) #Transcript count
-[1] 190734
-> length(unique(transcript_gene_table[,"g_id"])) #Unique Gene count
-[1] 54651
+< [1] 59197
 
+output of Unique Gene count
+
+< [1] 51276
 
 
 
