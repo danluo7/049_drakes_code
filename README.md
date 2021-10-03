@@ -168,10 +168,10 @@ Plot #2: Plot the distribution of transcript sizes as a histogram. lengths will 
 	full_table <- texpr(bg , 'all')
 	hist(full_table$length, breaks=500, xlab="Transcript length (bp)", main="Distribution of transcript lengths", col="steelblue")
 
-Summarize FPKM values for all 6 replicates with minimum and maximum FPKM values for a particular library
+View the summary FPKM values (minimum and maximum FPKM values) for any particular library
 	
-	min(gene_expression[,"FPKM.1"])
-	max(gene_expression[,"FPKM.2"])
+	min(gene_expression[,"Sample17_Lane2"])
+	max(gene_expression[,"Sample17_Lane2"])
 
 
 Set the minimum non-zero FPKM values by one of two ways:
