@@ -168,10 +168,10 @@ Plot #2: Plot the distribution of transcript sizes as a histogram. lengths will 
 	full_table <- texpr(bg , 'all')
 	hist(full_table$length, breaks=500, xlab="Transcript length (bp)", main="Distribution of transcript lengths", col="steelblue")
 
-View the summary FPKM values (minimum and maximum FPKM values) for any particular library
+View the summary FPKM values (minimum and maximum FPKM values) for any particular library, in this case, Sample17_Lane2
 	
-	min(gene_expression[,"Sample17_Lane2"])
-	max(gene_expression[,"Sample17_Lane2"])
+	min(gene_expression[,"FPKM.Sample17_Lane2"])
+	max(gene_expression[,"FPKM.Sample17_Lane2"])
 
 
 Set the minimum non-zero FPKM values by one of two ways:
@@ -206,7 +206,7 @@ Create boxplots using different colors by setting storing the colors of the colu
 
 
 
-## plot #4: plot a pair of replicates to assess reproducibility of technical replicates. 
+## plot #4 (optional): plot a pair of replicates to assess reproducibility of technical replicates. 
 Tranform the data by converting to log2 scale after adding an arbitrary small value to avoid log2(0). Also add a straight line of slope 1, and intercept 0. Also calculate the correlation coefficient and display in a legend.
 
 	x = gene_expression[,"FPKM.1"]
@@ -248,6 +248,12 @@ check in vitro samples
 
 
 ## Compare the correlation distance between all replicates
+
+Determine the amount of variance coming from each principal component in a tabel and a plot:
+
+	pc <- princomp(gene_expression[,data_columns],cor=TRUE,scores=TRUE)
+	summary(pc)
+	plot(pc,type='lines')
 
 Calculate the FPKM sum for all 8 libraries
 
