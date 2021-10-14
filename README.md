@@ -300,11 +300,66 @@ Calculate the differential expression results including significance
 
 
 
+## Plot #9 - View the distribution of differential expression values as a histogram
+#Display only those that are significant according to Ballgown
 
-### Plot #11 - Create a heatmap to vizualize expression differences between the eight samples
+sig=which(results_genes$pval<0.05)
+results_genes[,"de"] = log2(results_genes[,"fc"])
+hist(results_genes[sig,"de"], breaks=50, col="seagreen", xlab="log2(Fold change) UHR vs HBR", main="Distribution of differential expression values")
+abline(v=-2, col="black", lwd=2, lty=2)
+abline(v=2, col="black", lwd=2, lty=2)
+legend("topleft", "Fold-change > 4", lwd=2, lty=2)
 
-Define custom dist and hclust functions for use with heatmaps
+## Plot #10 - Display the grand expression values from UHR and HBR and mark those that are significantly differentially expressed
 
+	gene_expression[,"brain slice"]=apply(gene_expression[,c(1:3)], 1, mean)
+	gene_expression[,"in vitro"]=apply(gene_expression[,c(4:6)], 1, mean)
+
+	x=log2(gene_expression[,"brain slice"]+min_nonzero)
+	y=log2(gene_expression[,"in vitro"]+min_nonzero)
+	plot(x=x, y=y, pch=16, cex=0.25, xlab="brain slice FPKM (log2)", ylab="in vitro FPKM (log2)", main="Brain Slice vs in vitro FPKMs")
+	abline(a=0, b=1)
+	xsig=x[sig]
+	ysig=y[sig]
+	points(x=xsig, y=ysig, col="magenta", pch=16, cex=0.5)
+	legend("topleft", "Significant", col="magenta", pch=16)
+
+Get the gene symbols for the top N (according to corrected p-value) and display them on the plot
+
+	topn = order(abs(results_genes[sig,"fc"]), decreasing=TRUE)[1:25]
+	topn = order(results_genes[sig,"qval"])[1:25]
+	text(x[topn], y[topn], results_genes[topn,"gene_name"], col="black", cex=0.75, srt=45)
+
+
+## Write a simple table of differentially expressed transcripts to an output file
+
+Each should be significant with a log2 fold-change >= 2
+
+	sigpi = which(results_genes[,"pval"]<0.05)
+	sigp = results_genes[sigpi,]
+	sigde = which(abs(sigp[,"de"]) >= 2)
+	sig_tn_de = sigp[sigde,]
+
+Order the output by or p-value and then break ties using fold-change
+
+o = order(sig_tn_de[,"qval"], -abs(sig_tn_de[,"de"]), decreasing=FALSE)
+
+	output = sig_tn_de[o,c("gene_name","id","fc","pval","qval","de")]
+	write.table(output, file="SigDE_supplementary_R.txt", sep="\t", row.names=FALSE, quote=FALSE)
+
+View selected columns of the first 25 lines of output
+
+	output[1:25,c(1,4,5)]
+
+
+You can open the file "SigDE.txt" in Excel, Calc, etc.
+It should have been written to the current working directory that you set at the beginning of the R tutorial
+dir()
+
+
+## Plot #11 - Create a heatmap to vizualize expression differences between the eight samples
+
+	Define custom dist and hclust functions for use with heatmaps
 	mydist=function(c) {dist(c,method="euclidian")}
 	myclust=function(c) {hclust(c,method="complete")}
 
@@ -315,11 +370,8 @@ Define custom dist and hclust functions for use with heatmaps
 	data=log2(as.matrix(gene_expression[sig_genes,data_columns])+1)
 	heatmap.2(data, hclustfun=myclust, distfun=mydist, na.rm = TRUE, scale="column", dendrogram="both", margins=c(6,7), Rowv=TRUE, Colv=TRUE, symbreaks=FALSE, key=TRUE, symkey=FALSE, density.info="none", trace="none", main=main_title, cexRow=0.3, cexCol=1, labRow=sig_gene_names,labCol=short_names,col=bluered(100))
 
+	dev.off()
 
-
-
-close out the PDF
-dev.off()
 
 
 
