@@ -250,7 +250,8 @@ check in vitro samples
 
 ## Compare the correlation distance between all replicates
 
-Determine the amount of variance coming from each principal component in a tabel and a plot:
+
+Scree plot: Determine the amount of variance coming from each principal component in a table:
 
 	pc <- princomp(gene_expression[,data_columns],cor=TRUE,scores=TRUE)
 	summary(pc)
