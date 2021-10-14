@@ -53,7 +53,6 @@ actual script:
 
 R script:
 
-
 	R --no-restore
 	library(ballgown)
 	library(genefilter)
@@ -76,8 +75,6 @@ R script:
 
 	save(bg, file='bg.rda')
 	bg
-
-
 
 
 	pdf(file="GBM049_R_output.pdf")
@@ -122,15 +119,10 @@ Determine the dimensions of the dataframe.  'dim()' will return the number of ro
 
 
 
-
-
 Just for fun, check BRD4 expression across all 8 samples:
 
 	i = row.names(gene_expression) == "NM_001029863"
 	gene_expression[i,]
-
-
-
 
 
 
@@ -282,14 +274,6 @@ Convert correlation to distance, and use 'multi-dimensional scaling' to plot the
 	points(mds$points[,1], mds$points[,2], col="grey", cex=2, pch=16)
 	text(mds$points[,1], mds$points[,2], short_names, col=data_colors)
 
-trying to plot in 3 dimensions: 
-	
-	d=1-r
-	mds=cmdscale(d, k=3, eig=TRUE)
-	par(mfrow=c(1,1))
-	plot(mds$points, type="n", xlab="", ylab="", zlab="", main="MDS distance plot (all non-zero genes)", xlim=c(-0.4,0.4), ylim=c(-0.4,0.4) , zlim=c(-0.4,0.4))
-	points(mds$points[,1], mds$points[,2], col="grey", cex=2, pch=16)
-	text(mds$points[,1], mds$points[,2], short_names, col=data_colors)
 
 
 
