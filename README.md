@@ -301,14 +301,15 @@ Calculate the differential expression results including significance
 
 
 ## Plot #9 - View the distribution of differential expression values as a histogram
-#Display only those that are significant according to Ballgown
 
-sig=which(results_genes$pval<0.05)
-results_genes[,"de"] = log2(results_genes[,"fc"])
-hist(results_genes[sig,"de"], breaks=50, col="seagreen", xlab="log2(Fold change) UHR vs HBR", main="Distribution of differential expression values")
-abline(v=-2, col="black", lwd=2, lty=2)
-abline(v=2, col="black", lwd=2, lty=2)
-legend("topleft", "Fold-change > 4", lwd=2, lty=2)
+Display only those that are significant according to Ballgown
+
+	sig=which(results_genes$pval<0.05)
+	results_genes[,"de"] = log2(results_genes[,"fc"])
+	hist(results_genes[sig,"de"], breaks=50, col="seagreen", xlab="log2(Fold change) UHR vs HBR", main="Distribution of differential expression values")
+	abline(v=-2, col="black", lwd=2, lty=2)
+	abline(v=2, col="black", lwd=2, lty=2)
+	legend("topleft", "Fold-change > 4", lwd=2, lty=2)
 
 ## Plot #10 - Display the grand expression values from UHR and HBR and mark those that are significantly differentially expressed
 
