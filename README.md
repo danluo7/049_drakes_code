@@ -1,4 +1,6 @@
 # 049_drakes_code
+below scripts are for data in /home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049
+
 
 
 put folder into env variable
@@ -9,7 +11,6 @@ put folder into env variable
 
 ## start with Drake's output from Stringtie (FPKM counts)
 
-    
     cd $gbm_049_drake/expression/stringtie/ref_only
     head Sample6_Lane2/transcripts.gtf
 
