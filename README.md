@@ -111,9 +111,7 @@ View the column names
 
 	colnames(gene_expression)
 
-View the row names
-	
-	row.names(gene_expression)
+View the row names by row.names(gene_expression) (will be long)
 
 Determine the dimensions of the dataframe.  'dim()' will return the number of rows and columns
 
