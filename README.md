@@ -121,7 +121,7 @@ Determine the dimensions of the dataframe.  'dim()' will return the number of ro
 
 Just for fun, check BRD4 expression across all 8 samples:
 
-	i = row.names(gene_expression) == "NM_001029863"
+	i = row.names(gene_expression) == "NM_058243"
 	gene_expression[i,]
 
 
