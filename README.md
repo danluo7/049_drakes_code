@@ -187,7 +187,7 @@ Set the columns for finding FPKM and create shorter names for figures
 	short_names=c("slice_1","slice2","organoid_1","organoid_2","tissue_1","tissue_2","invitro_1","invitro_2")
 
 
-Plot #3: Plot range of values and general distribution of FPKM values for all 8 libraries
+Plot #3: Plot range of values and general distribution of FPKM values for all 10 libraries
 
 Create boxplots using different colors by setting storing the colors of the columns in a variable called data_colors. then display on a log2 scale and add the minimum non-zero value to avoid log2(0). Note that the bold horizontal line on each boxplot is the median.
 
