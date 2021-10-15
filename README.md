@@ -196,7 +196,7 @@ Create boxplots using different colors by setting storing the colors of the colu
 
 
 	colors()
-	data_colors=c("tomato1","tomato2","royalblue1","royalblue2","seagreen1","seagreen2","grey1","grey2","yellow1","yellow2")
+	data_colors=c("tomato1","tomato2","royalblue1","royalblue2","seagreen1","seagreen2","grey1","grey2","brown1","brown2")
 
 	boxplot(log2(gene_expression[,data_columns]+min_nonzero), col=data_colors, names=short_names, las=2, ylab="log2(FPKM)", main="Distribution of FPKMs for libraries of all 10 samples")
 
