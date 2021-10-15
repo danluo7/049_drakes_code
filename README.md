@@ -252,7 +252,7 @@ Scree plot: Determine the amount of variance coming from each principal componen
 	summary(pc)
 	plot(pc,type='lines')
 
-Calculate the FPKM sum for all 8 libraries
+Calculate the FPKM sum for all 10 libraries
 
 	gene_expression[,"sum"]=apply(gene_expression[,data_columns], 1, sum)
 
