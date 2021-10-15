@@ -183,8 +183,11 @@ Alternatively just set min value to 1
 
 Set the columns for finding FPKM and create shorter names for figures
 
-	data_columns=c(1:8)
-	short_names=c("slice_1","slice2","organoid_1","organoid_2","tissue_1","tissue_2","invitro_1","invitro_2")
+
+	data_columns=c(1:10)
+	short_names=c("tissue_1","tissue_2","slice_1","slice2","discells_1", "discells_2","organoid_1","organoid_2","invitro_1","invitro_2")
+
+
 
 
 Plot #3: Plot range of values and general distribution of FPKM values for all 10 libraries
