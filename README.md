@@ -258,7 +258,7 @@ Calculate the FPKM sum for all 8 libraries
 
 Filter out genes with a grand sum FPKM of less than 10
 
-	i = which(gene_expression[,"sum"] > 5)
+	i = which(gene_expression[,"sum"] > 10)
 
 
 Calculate the correlation between all pairs of data
