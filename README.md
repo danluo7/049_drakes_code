@@ -50,6 +50,7 @@ actual script:
 
     printf "\"ids\",\"type\",\"path\"\n"Sample17_Lane2","049_slice","$gbm_049_drake/expression/stringtie/ref_only/Sample17_Lane2"\n"Sample17_Lane3","049_slice","$gbm_049_drake/expression/stringtie/ref_only/Sample17_Lane3"\n"Sample29_Lane2","049_organoid","$gbm_049_drake/expression/stringtie/ref_only/Sample29_Lane2"\n"Sample29_Lane3","049_organoid","$gbm_049_drake/expression/stringtie/ref_only/Sample29_Lane3"\n"Sample18_Lane2","049_neurospheres","$gbm_049_drake/expression/stringtie/ref_only/Sample18_Lane2"\n"Sample18_Lane3","049_neurospheres","$gbm_049_drake/expression/stringtie/ref_only/Sample18_Lane3"\n"Sample6_Lane2","049_tissue","$gbm_049_drake/expression/stringtie/ref_only/Sample6_Lane2"\n"Sample6_Lane3","049_tissue","$gbm_049_drake/expression/stringtie/ref_only/Sample6_Lane3"\n"Sample26_Lane2","049_invitro","$gbm_049_drake/expression/stringtie/ref_only/Sample26_Lane2"\n"Sample27_Lane2","049_invitro","$gbm_049_drake/expression/stringtie/ref_only/Sample27_Lane2 "\n" > GBM049_all.csv
 
+	cat GBM049_all.csv
 
 
 
