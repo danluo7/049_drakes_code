@@ -33,14 +33,23 @@ goal is to generate a header file to load into R, for ALL samples for principal 
 
 file for all 049 samples for PCA: 
 
-printf "\"ids\",\"type\",\"path\"\
+
+printf "\"ids\",\"type\",\"path
+\"\n\"Sample6_Lane2\",\"049_tissue\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample6_Lane2
+\"\n\"Sample6_Lane3\",\"049_tissue\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample6_Lane3
+\"\n\"Sample17_Lane2\",\"049_slice\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample17_Lane2
+\"\n\"Sample17_Lane3\",\"049_slice\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample17_Lane3
+\"\n\"Sample18_Lane2\",\"049_neurosphere\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample18_Lane2
+\"\n\"Sample18_Lane3\",\"049_neurosphere\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample18_Lane3
+\"\n\"Sample29_Lane2\",\"049_organoid\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample29_Lane3
+\"\n\"Sample29_Lane3\",\"049_organoid\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample29_Lane3
+\"\n\"Sample26_Lane2\",\"049_invitro\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample26_Lane2
+\"\n\"Sample27_Lane2\",\"049_invitro\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample27_Lane2
+\"\n" > GBM049_all_drake.csv
 
 
-actual script:
-
-    printf "\"ids\",\"type\",\"path\"\n"Sample17_Lane2","049_slice","$gbm_049_drake/expression/stringtie/ref_only/Sample17_Lane2"\n"Sample17_Lane3","049_slice","$gbm_049_drake/expression/stringtie/ref_only/Sample17_Lane3"\n"Sample29_Lane2","049_organoid","$gbm_049_drake/expression/stringtie/ref_only/Sample29_Lane2"\n"Sample29_Lane3","049_organoid","$gbm_049_drake/expression/stringtie/ref_only/Sample29_Lane3"\n"Sample18_Lane2","049_neurospheres","$gbm_049_drake/expression/stringtie/ref_only/Sample18_Lane2"\n"Sample18_Lane3","049_neurospheres","$gbm_049_drake/expression/stringtie/ref_only/Sample18_Lane3"\n"Sample6_Lane2","049_tissue","$gbm_049_drake/expression/stringtie/ref_only/Sample6_Lane2"\n"Sample6_Lane3","049_tissue","$gbm_049_drake/expression/stringtie/ref_only/Sample6_Lane3"\n"Sample26_Lane2","049_invitro","$gbm_049_drake/expression/stringtie/ref_only/Sample26_Lane2"\n"Sample27_Lane2","049_invitro","$gbm_049_drake/expression/stringtie/ref_only/Sample27_Lane2 "\n" > GBM049_all.csv
-
-	cat GBM049_all.csv
+	
+	cat GBM049_all_drake.csv
 
 
 
