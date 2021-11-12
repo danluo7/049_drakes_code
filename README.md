@@ -34,7 +34,7 @@ goal is to generate a header file to load into R, for ALL samples for principal 
 file for all 049 samples for PCA: 
 
 
-printf "\"ids\",\"type\",\"path
+	printf "\"ids\",\"type\",\"path
 \"\n\"Sample6_Lane2\",\"049_tissue\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample6_Lane2
 \"\n\"Sample6_Lane3\",\"049_tissue\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample6_Lane3
 \"\n\"Sample17_Lane2\",\"049_slice\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample17_Lane2
