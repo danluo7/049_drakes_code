@@ -197,7 +197,7 @@ printf "\"ids\",\"type\",\"path\"\n"Sample6_Lane2","049_tissue","$gbm_049_drake/
 
 
 	data_columns=c(1:10)
-	short_names=c("tissue_1","tissue_2","organoid_1","organoid_2","discells_1", "discells_2","slice_1","slice_2","invitro_1","invitro_2")
+	short_names=c("tissue_1","tissue_2","slice_1","slice_2","discells_1", "discells_2","organoid_1","organoid_2","invitro_1","invitro_2")
 
 
 
@@ -293,7 +293,7 @@ check in vitro samples
 	
 	
 ## Plot MDS (plot #8)
-Convert correlation to distance, and use 'multi-dimensional scaling' to plot the relative differences between libraries, by calculating 2-dimensional coordinates to plot points for each library using eigenvectors (eig=TRUE). d, k=2 means 2 dimensions
+#Convert correlation to distance, and use 'multi-dimensional scaling' to plot the relative differences between libraries, by calculating 2-dimensional coordinates to plot points for each library using eigenvectors (eig=TRUE). d, k=2 means 2 dimensions
 	
 	d=1-r
 	mds=cmdscale(d, k=2, eig=TRUE)
@@ -313,6 +313,14 @@ Convert correlation to distance, and use 'multi-dimensional scaling' to plot the
 
 
 	dev.off()
+
+
+
+
+
+
+
+
 
 ---------------------------
 #below code (from drake) doesn't work anymore becuase of stattest:
