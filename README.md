@@ -6,22 +6,23 @@ below scripts are for data in /home/daniel/ubuntu/workspace/all_049/drakes_data/
 
 #put folder into env variable
 
-    nano .bahsrc
+    nano .bashrc
     export gbm_049_drake=/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/
 
 
 ## start with Drake's output from Stringtie (FPKM counts)
 
-    cd $gbm_049_drake/expression/stringtie/ref_only
-    head Sample6_Lane2/transcripts.gtf
+	cd $gbm_049_drake/expression/stringtie/ref_only
+	head Sample6_Lane2/transcripts.gtf
+
 
    
 ## Use Ballgown in R for differential expression (DE) analysis (then PCA) using output from Stringtie
 Perform A vs. B comparison, using all replicates, for known (reference only mode) transcripts
 
-    mkdir -p ~/workspace/all_049/drakes_data/18-0190-049/de/ballgown/ref_only
-    cd $gbm_049_drake/de/ballgown/ref_only/
-  
+	mkdir -p ~/workspace/all_049/drakes_data/18-0190-049/de/ballgown/ref_only
+	cd $gbm_049_drake/de/ballgown/ref_only/
+
 
 #Use printf to create/print a table with ids, type (each type of sample is a type), and path to the file, as the header. Then n returns a new line.
 ##(note: id needs to match the file folder names created by stringtie)
@@ -33,26 +34,25 @@ Perform A vs. B comparison, using all replicates, for known (reference only mode
 #goal is to generate a header file to load into R, for ALL samples for principal component analysis (the simplest form of multidimentional scaling), and also a file for pairwise comparisons. since we have a ton of comparisisons, might just not do this for now and only do the PCA.
 
 #file for all 049 samples for PCA: 
+printf ""ids","type","path"
+n"Sample17_Lane2","049_slice","$gbm_049_drake/expression/stringtie/ref_only/Sample17_Lane2"
+n"Sample17_Lane3","049_slice","$gbm_049_drake/expression/stringtie/ref_only/Sample17_Lane3"
+n"Sample29_Lane2","049_organoid","$gbm_049_drake/expression/stringtie/ref_only/Sample29_Lane2"
+n"Sample29_Lane3","049_organoid","$gbm_049_drake/expression/stringtie/ref_only/Sample29_Lane3"
+n"Sample18_Lane2","049_neurospheres","$gbm_049_drake/expression/stringtie/ref_only/Sample18_Lane2"
+n"Sample18_Lane3","049_neurospheres","$gbm_049_drake/expression/stringtie/ref_only/Sample18_Lane3"
+n"Sample6_Lane2","049_tissue","$gbm_049_drake/expression/stringtie/ref_only/Sample6_Lane2"
+n"Sample6_Lane3","049_tissue","$gbm_049_drake/expression/stringtie/ref_only/Sample6_Lane3"
+n"Sample26_Lane2","049_invitro","$gbm_049_drake/expression/stringtie/ref_only/Sample26_Lane2"
+n"Sample27_Lane2","049_invitro","$gbm_049_drake/expression/stringtie/ref_only/Sample27_Lane2 "
+n" > GBM049_all_drake.csv
 
+actual script:
 
-#printf "\"ids\",\"type\",\"path
-\"\n\"Sample6_Lane2\",\"049_tissue\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample6_Lane2
-\"\n\"Sample6_Lane3\",\"049_tissue\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample6_Lane3
-\"\n\"Sample17_Lane2\",\"049_slice\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample17_Lane2
-\"\n\"Sample17_Lane3\",\"049_slice\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample17_Lane3
-\"\n\"Sample18_Lane2\",\"049_neurosphere\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample18_Lane2
-\"\n\"Sample18_Lane3\",\"049_neurosphere\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample18_Lane3
-\"\n\"Sample29_Lane2\",\"049_organoid\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample29_Lane3
-\"\n\"Sample29_Lane3\",\"049_organoid\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample29_Lane3
-\"\n\"Sample26_Lane2\",\"049_invitro\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample26_Lane2
-\"\n\"Sample27_Lane2\",\"049_invitro\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample27_Lane2
-\"\n" > GBM049_all_drake.csv
+	printf "\"ids\",\"type\",\"path\"\n"Sample17_Lane2","049_slice","$gbm_049_drake/expression/stringtie/ref_only/Sample17_Lane2"\n"Sample17_Lane3","049_slice","$gbm_049_drake/expression/stringtie/ref_only/Sample17_Lane3"\n"Sample29_Lane2","049_organoid","$gbm_049_drake/expression/stringtie/ref_only/Sample29_Lane2"\n"Sample29_Lane3","049_organoid","$gbm_049_drake/expression/stringtie/ref_only/Sample29_Lane3"\n"Sample18_Lane2","049_neurospheres","$gbm_049_drake/expression/stringtie/ref_only/Sample18_Lane2"\n"Sample18_Lane3","049_neurospheres","$gbm_049_drake/expression/stringtie/ref_only/Sample18_Lane3"\n"Sample6_Lane2","049_tissue","$gbm_049_drake/expression/stringtie/ref_only/Sample6_Lane2"\n"Sample6_Lane3","049_tissue","$gbm_049_drake/expression/stringtie/ref_only/Sample6_Lane3"\n"Sample26_Lane2","049_invitro","$gbm_049_drake/expression/stringtie/ref_only/Sample26_Lane2"\n"Sample27_Lane2","049_invitro","$gbm_049_drake/expression/stringtie/ref_only/Sample27_Lane2 "\n" > GBM049_all_drake.csv
 
-
-	printf "\"ids\",\"type\",\"path\"\n\"Sample6_Lane2\",\"049_tissue\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample6_Lane2\"\n\"Sample6_Lane3\",\"049_tissue\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample6_Lane3\"\n\"Sample17_Lane2\",\"049_slice\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample17_Lane2\"\n\"Sample17_Lane3\",\"049_slice\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample17_Lane3\"\n\"Sample18_Lane2\",\"049_neurosphere\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample18_Lane2\"\n\"Sample18_Lane3\",\"049_neurosphere\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample18_Lane3\"\n\"Sample29_Lane2\",\"049_organoid\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample29_Lane3\"\n\"Sample29_Lane3\",\"049_organoid\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample29_Lane3\"\n\"Sample26_Lane2\",\"049_invitro\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample26_Lane2\"\n\"Sample27_Lane2\",\"049_invitro\",\"/home/daniel/ubuntu/workspace/all_049/drakes_data/18-0190-049/expression/stringtie/ref_only/Sample27_Lane2\"\n" > GBM049_all_drake.csv
 	
 	cat GBM049_all_drake.csv
-
 
 
 #R script:
@@ -72,7 +72,7 @@ Perform A vs. B comparison, using all replicates, for known (reference only mode
 	dir()
 
 
-	pheno_data = read.csv("GBM049_all_drake.csv")  
+	pheno_data = read.csv("GBM049_all.csv")  
 
 
 	bg = ballgown(samples=as.vector(pheno_data$path), pData=pheno_data)
@@ -88,6 +88,7 @@ Perform A vs. B comparison, using all replicates, for known (reference only mode
 
 
 	pdf(file="GBM049_R_output.pdf")
+
 
 	
 
