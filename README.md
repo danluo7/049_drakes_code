@@ -77,7 +77,7 @@ printf "\"ids\",\"type\",\"path\"\n"Sample6_Lane2","049_tissue","$gbm_049_drake/
 	dir()
 
 
-	pheno_data = read.csv("GBM049_all.csv")  
+	pheno_data = read.csv("GBM049_all_drake.csv")  
 
 
 	bg = ballgown(samples=as.vector(pheno_data$path), pData=pheno_data)
