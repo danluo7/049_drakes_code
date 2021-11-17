@@ -36,7 +36,8 @@ Perform A vs. B comparison, using all replicates, for known (reference only mode
 #file for all 049 samples for PCA: 
 
 printf "\"ids\",\"type\",\"path
-\"\n"Sample17_Lane2","049_slice","$gbm_049_drake/expression/stringtie/ref_only/Sample17_Lane2
+\
+"\n"Sample17_Lane2","049_slice","$gbm_049_drake/expression/stringtie/ref_only/Sample17_Lane2
 "\n"Sample17_Lane3","049_slice","$gbm_049_drake/expression/stringtie/ref_only/Sample17_Lane3
 "\n"Sample29_Lane2","049_organoid","$gbm_049_drake/expression/stringtie/ref_only/Sample29_Lane2
 "\n"Sample29_Lane3","049_organoid","$gbm_049_drake/expression/stringtie/ref_only/Sample29_Lane3
